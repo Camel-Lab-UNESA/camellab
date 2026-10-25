@@ -45,7 +45,17 @@
     "minRead": "{n} min read",
     "news": "News",
     "articles": "Article",
-    "backTo": "All {section}"
+    "backTo": "All {section}",
+    "video": "YouTube video",
+    "signInTitle": "Members only",
+    "signInToRead": "This post is for signed-in members. Sign in to read it."
+  },
+  "visibility": {
+    "public": "Everyone",
+    "members": "Signed-in members",
+    "students": "Students",
+    "lecturers": "Lecturers",
+    "internal": "Internal team"
   },
   "footer": {
     "tagline": "Camellab · AI research lab"
@@ -160,8 +170,16 @@
       "link": "Link",
       "preview": "Preview — how it will look on the site",
       "visual": "Visual",
-      "markdown": "Markdown"
-    }
+      "markdown": "Markdown",
+      "image": "Image",
+      "imageAlt": "Describe the image for people who can’t see it:",
+      "imageTooLarge": "Images must be 4 MB or smaller.",
+      "video": "YouTube video",
+      "videoPrompt": "Paste a YouTube link:",
+      "videoInvalid": "That isn’t a YouTube video link. Copy the address of the video page or its Share link."
+    },
+    "visibility": "Who can read it",
+    "visibilityHint": "The internal team can always read every post."
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",

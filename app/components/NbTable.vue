@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  posts: { title: string, description?: string, date: string | Date, author: string, minutes: number, path: string }[]
+  posts: { title: string, description?: string, date: string | Date, author: string, minutes: number, path: string, visibility?: string }[]
   lead?: boolean
 }>()
 
@@ -23,6 +23,10 @@ const { t, locale } = useI18n()
           <th scope="row" class="stream">{{ i }}</th>
           <td class="stream">
             <NuxtLink :to="post.path" class="t">{{ post.title }}</NuxtLink>
+            <template v-if="post.visibility && post.visibility !== 'public'">
+              <UIcon name="i-lucide-lock" class="ms-1.5 size-3.5 align-[-0.1em] text-[var(--muted)]" aria-hidden="true" />
+              <span class="sr-only">{{ t(`visibility.${post.visibility}`) }}</span>
+            </template>
             <p v-if="lead && i === 0 && post.description" class="d">{{ post.description }}</p>
             <p class="d mono text-[0.8125rem]">
               {{ post.author }}<span class="md:hidden"> · {{ formatDate(post.date, locale) }} · {{ t('post.minRead', { n: post.minutes }) }}</span>

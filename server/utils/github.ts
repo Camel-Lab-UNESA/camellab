@@ -1,6 +1,31 @@
+import { createHash } from 'node:crypto'
+import { mkdir, readdir, readFile, unlink, writeFile } from 'node:fs/promises'
+import { dirname } from 'node:path'
 import { createError } from 'h3'
 
 const API = 'https://api.github.com'
+
+// In dev, files are read from and written to the working tree (content/, public/uploads/): the dev
+// server picks them up at once, and test posts never reach the branch Vercel deploys.
+const LOCAL = import.meta.dev
+
+// The sha GitHub reports for a file, so the stale-edit checks work the same locally.
+function blobSha(content: string | Buffer): string {
+  return createHash('sha1').update(`blob ${Buffer.byteLength(content)}\0`).update(content).digest('hex')
+}
+
+function isMissing(error: unknown): boolean {
+  return (error as NodeJS.ErrnoException).code === 'ENOENT'
+}
+
+async function readLocal(path: string): Promise<Buffer> {
+  try {
+    return await readFile(path)
+  } catch (error) {
+    if (isMissing(error)) throw createError({ statusCode: 404, statusMessage: 'Not found' })
+    throw error
+  }
+}
 
 type GithubFile = {
   name: string
@@ -31,7 +56,7 @@ function contentsUrl(path: string): string {
   return `${API}/repos/${repo}/contents/${encoded}`
 }
 
-async function request<T>(url: string, init: RequestInit = {}): Promise<T> {
+async function call(url: string, init: RequestInit = {}): Promise<Response> {
   const response = await fetch(url, {
     ...init,
     headers: {
@@ -57,10 +82,25 @@ async function request<T>(url: string, init: RequestInit = {}): Promise<T> {
     throw createError({ statusCode, statusMessage: `GitHub ${response.status}: ${detail}` })
   }
 
-  return response.json() as Promise<T>
+  return response
+}
+
+async function request<T>(url: string, init: RequestInit = {}): Promise<T> {
+  return (await call(url, init)).json() as Promise<T>
 }
 
 export async function listFiles(path: string): Promise<{ slug: string, sha: string }[]> {
+  if (LOCAL) {
+    const names = await readdir(path).catch((error) => {
+      if (isMissing(error)) return []
+      throw error
+    })
+    return Promise.all(names.filter(name => name.endsWith('.md')).map(async name => ({
+      slug: name.slice(0, -3),
+      sha: blobSha(await readFile(`${path}/${name}`, 'utf8'))
+    })))
+  }
+
   try {
     const files = await request<GithubFile[]>(`${contentsUrl(path)}?ref=${encodeURIComponent(branch())}`)
     return files
@@ -73,6 +113,11 @@ export async function listFiles(path: string): Promise<{ slug: string, sha: stri
 }
 
 export async function getFile(path: string): Promise<{ content: string, sha: string }> {
+  if (LOCAL) {
+    const content = (await readLocal(path)).toString('utf8')
+    return { content, sha: blobSha(content) }
+  }
+
   const file = await request<GithubFile>(`${contentsUrl(path)}?ref=${encodeURIComponent(branch())}`)
   if (!file.content) throw createError({ statusCode: 502, statusMessage: 'GitHub returned no file content' })
   return {
@@ -81,10 +126,26 @@ export async function getFile(path: string): Promise<{ content: string, sha: str
   }
 }
 
-export async function putFile(path: string, content: string, message: string, sha?: string) {
+// Any size up to GitHub's 100 MB limit; getFile only returns text files under 1 MB.
+export async function getRawFile(path: string): Promise<Buffer> {
+  if (LOCAL) return readLocal(path)
+
+  const response = await call(`${contentsUrl(path)}?ref=${encodeURIComponent(branch())}`, {
+    headers: { Accept: 'application/vnd.github.raw+json' }
+  })
+  return Buffer.from(await response.arrayBuffer())
+}
+
+export async function putFile(path: string, content: string | Buffer, message: string, sha?: string) {
+  if (LOCAL) {
+    await mkdir(dirname(path), { recursive: true })
+    await writeFile(path, content)
+    return { contentSha: blobSha(content), commitUrl: '' }
+  }
+
   const body = {
     message,
-    content: Buffer.from(content).toString('base64'),
+    content: (typeof content === 'string' ? Buffer.from(content) : content).toString('base64'),
     branch: branch(),
     ...(sha ? { sha } : {})
   }
@@ -96,6 +157,8 @@ export async function putFile(path: string, content: string, message: string, sh
 }
 
 export async function deleteFile(path: string, message: string, sha: string) {
+  if (LOCAL) return unlink(path)
+
   await request(contentsUrl(path), {
     method: 'DELETE',
     body: JSON.stringify({ message, sha, branch: branch() })

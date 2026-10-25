@@ -14,9 +14,9 @@ export default defineEventHandler(async (event) => {
     try {
       const { content } = await getFile(`content/${section}/${file.slug}.md`)
       const post = parsePostFile(content)
-      return { ...file, title: post.title, date: post.date }
+      return { ...file, title: post.title, date: post.date, visibility: post.visibility }
     } catch {
-      return { ...file, title: file.slug, date: '' }
+      return { ...file, title: file.slug, date: '', visibility: 'public' }
     }
   }))
 

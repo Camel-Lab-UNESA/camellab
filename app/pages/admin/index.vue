@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import type { Editor, JSONContent } from '@tiptap/vue-3'
+import { VISIBILITIES } from '~~/shared/utils/visibility'
+import type { Visibility } from '~~/shared/utils/visibility'
+
 definePageMeta({ middleware: 'internal' })
 
 const { t } = useI18n()
@@ -6,7 +10,7 @@ const { data: session } = await authClient.useSession(useFetch)
 const sections = ['news', 'articles'] as const
 type Section = (typeof sections)[number]
 
-type PostSummary = { slug: string, sha: string, title: string, date: string }
+type PostSummary = { slug: string, sha: string, title: string, date: string, visibility: Visibility }
 type PostDetail = PostSummary & { description: string, author: string, body: string }
 
 const section = ref<Section>('articles')
@@ -17,7 +21,8 @@ const editing = ref<string | null>(null)
 const editingSha = ref<string>()
 const error = ref('')
 const notice = ref('')
-const form = reactive({ title: '', slug: '', description: '', date: today(), author: '', body: '' })
+const form = reactive({ title: '', slug: '', description: '', date: today(), author: '', visibility: 'public' as Visibility, body: '' })
+const visibilityItems = computed(() => VISIBILITIES.map(value => ({ label: t(`visibility.${value}`), value })))
 
 useSeoMeta({ title: () => t('admin.title'), robots: 'noindex' })
 
@@ -32,6 +37,54 @@ const editorItems = computed(() => [
   [tool('i-lucide-link', 'link', { kind: 'link' })]
 ])
 
+const editorRef = useTemplateRef<{ editor?: Editor }>('editorRef')
+const fileInput = useTemplateRef<HTMLInputElement>('fileInput')
+const uploading = ref(false)
+
+// Visual mode inserts at the cursor; Markdown mode adds a paragraph at the end.
+function insertBlock(markdown: string, node: JSONContent) {
+  const editor = mode.value === 'visual' ? editorRef.value?.editor : undefined
+  if (editor) editor.chain().focus().insertContent(node).run()
+  else form.body = `${form.body.trimEnd()}\n\n${markdown}\n`
+}
+
+async function uploadImage(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  input.value = ''
+  if (!file) return
+  error.value = ''
+  if (file.size > 4 * 1024 * 1024) {
+    error.value = t('admin.editor.imageTooLarge')
+    return
+  }
+  const alt = prompt(t('admin.editor.imageAlt'), file.name.replace(/\.[^.]+$/, ''))?.replace(/[[\]\n]/g, ' ').trim()
+  if (alt === undefined) return
+
+  uploading.value = true
+  try {
+    const body = new FormData()
+    body.append('file', file)
+    const { url } = await $fetch<{ url: string }>('/api/admin/uploads', { method: 'POST', body })
+    insertBlock(`![${alt}](${url})`, { type: 'image', attrs: { src: url, alt } })
+  } catch (e) {
+    error.value = messageOf(e)
+  } finally {
+    uploading.value = false
+  }
+}
+
+function addVideo() {
+  const url = prompt(t('admin.editor.videoPrompt'))?.trim()
+  if (!url) return
+  if (!youtubeId(url)) {
+    error.value = t('admin.editor.videoInvalid')
+    return
+  }
+  error.value = ''
+  insertBlock(url, { type: 'paragraph', content: [{ type: 'text', text: url, marks: [{ type: 'link', attrs: { href: url } }] }] })
+}
+
 function today() {
   return new Date().toISOString().slice(0, 10)
 }
@@ -44,6 +97,7 @@ function reset() {
   form.description = ''
   form.date = today()
   form.author = session.value?.user.name ?? ''
+  form.visibility = 'public'
   form.body = ''
   error.value = ''
   notice.value = ''
@@ -80,6 +134,7 @@ async function editPost(slug: string) {
     form.description = post.description
     form.date = post.date
     form.author = post.author
+    form.visibility = post.visibility
     form.body = post.body
   } catch (e) {
     error.value = messageOf(e)
@@ -112,7 +167,7 @@ async function save() {
     editing.value = slug
     editingSha.value = result.contentSha
     notice.value = t('admin.saved')
-    await loadPosts()
+    loadPosts()
   } catch (e) {
     error.value = messageOf(e)
   } finally {
@@ -130,7 +185,7 @@ async function remove(slug: string, sha: string) {
     await $fetch(`/api/admin/posts/${section.value}/${slug}`, { method: 'DELETE', body: { sha } })
     if (editing.value === slug) reset()
     notice.value = t('admin.deleted')
-    await loadPosts()
+    loadPosts()
   } catch (e) {
     error.value = messageOf(e)
   } finally {
@@ -180,7 +235,10 @@ onMounted(() => {
         <li v-for="post in posts" :key="post.slug" class="flex flex-wrap items-center gap-3 py-3">
           <div class="min-w-0 flex-1">
             <p class="font-semibold [overflow-wrap:anywhere]">{{ post.title }}</p>
-            <p class="md-meta">{{ post.slug }}<template v-if="post.date"> · {{ post.date }}</template></p>
+            <p class="md-meta">
+              {{ post.slug }}<template v-if="post.date"> · {{ post.date }}</template>
+              <template v-if="post.visibility !== 'public'"> · <UIcon name="i-lucide-lock" class="size-3 align-[-0.1em]" aria-hidden="true" /> {{ t(`visibility.${post.visibility}`) }}</template>
+            </p>
           </div>
           <UButton size="sm" color="neutral" variant="ghost" icon="i-lucide-pencil" :aria-label="t('admin.edit')" @click="editPost(post.slug)" />
           <UButton size="sm" color="neutral" variant="ghost" icon="i-lucide-trash-2" :aria-label="t('admin.delete')" @click="remove(post.slug, post.sha)" />
@@ -207,8 +265,11 @@ onMounted(() => {
             <UInput v-model="form.author" size="lg" class="w-full" maxlength="100" />
           </UFormField>
         </div>
+        <UFormField :label="t('admin.visibility')" :hint="t('admin.visibilityHint')" required>
+          <USelect v-model="form.visibility" :items="visibilityItems" size="lg" class="w-full sm:w-72" />
+        </UFormField>
         <UFormField :label="t('admin.body')" required>
-          <div class="mb-2 flex gap-1">
+          <div class="mb-2 flex flex-wrap gap-1">
             <UButton
               v-for="m in modes"
               :key="m"
@@ -219,10 +280,13 @@ onMounted(() => {
               :aria-pressed="mode === m"
               @click="mode = m"
             />
+            <UButton class="ms-auto" icon="i-lucide-image-plus" :label="t('admin.editor.image')" color="neutral" variant="ghost" size="xs" :loading="uploading" @click="fileInput?.click()" />
+            <UButton icon="i-lucide-youtube" :label="t('admin.editor.video')" color="neutral" variant="ghost" size="xs" @click="addVideo" />
+            <input ref="fileInput" type="file" accept="image/png,image/jpeg,image/gif,image/webp" class="hidden" @change="uploadImage">
           </div>
           <div class="grid gap-4 lg:grid-cols-2">
             <UTextarea v-if="mode === 'markdown'" v-model="form.body" size="lg" class="w-full font-mono" :rows="16" autoresize />
-            <UEditor v-else v-slot="{ editor }" v-model="form.body" content-type="markdown" class="min-h-80 rounded-md border border-[var(--mist)]" :ui="{ base: 'p-4' }">
+            <UEditor v-else ref="editorRef" v-slot="{ editor }" v-model="form.body" content-type="markdown" class="min-h-80 rounded-md border border-[var(--mist)]" :ui="{ base: 'p-4' }">
               <UEditorToolbar :editor="editor" :items="editorItems" class="overflow-x-auto border-b border-[var(--mist)] p-1" />
             </UEditor>
             <div class="min-w-0 rounded-md border border-[var(--mist)] p-4">

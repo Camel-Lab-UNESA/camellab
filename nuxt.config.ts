@@ -61,6 +61,13 @@ export default defineNuxtConfig({
     },
   },
   hooks: {
+    // Nuxt Content prerenders each collection's full dump as a public file. Posts can be
+    // role-restricted, so those two are served only through server/api/posts (server/utils/content.ts).
+    "nitro:config"(config) {
+      for (const name of ["news", "articles"]) {
+        (config.routeRules ||= {})[`/__nuxt_content/${name}/sql_dump.txt`] = { prerender: false };
+      }
+    },
     "content:file:afterParse"({ file, content, collection }) {
       if (collection.name === "news" || collection.name === "articles") {
         content.minutes = Math.max(

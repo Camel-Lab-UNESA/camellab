@@ -43,3 +43,7 @@ The site runs at `http://localhost:3000`.
 News goes in `content/news`, articles in `content/articles`, and the about text in `content/about` (one file per language). Posts are Markdown with the front matter described in `content/articles/how-to-publish.md`.
 
 Users with the `internal` role can also publish from `/admin`. Saving commits the Markdown file to `GITHUB_REPO` on `GITHUB_BRANCH` with the GitHub Contents API, then Vercel redeploys. Requires `GITHUB_TOKEN` with Contents read and write; see `.env.example`.
+
+Each post has a `visibility`: `public`, `members` (anyone signed in), `students`, `lecturers` or `internal`. The internal team reads everything. Pages get posts from `server/api/posts`, which filters by the reader's role; the raw Nuxt Content endpoints for news and articles are closed (`server/utils/content.ts`). Images uploaded in the admin are committed to `public/uploads`. Videos are YouTube links only.
+
+In dev (`pnpm dev`), the admin writes to `content/` and `public/uploads/` on disk instead of committing.

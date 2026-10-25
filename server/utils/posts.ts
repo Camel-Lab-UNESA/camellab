@@ -1,3 +1,6 @@
+import { isVisibility } from '../../shared/utils/visibility.ts'
+import type { Visibility } from '../../shared/utils/visibility.ts'
+
 export const SECTIONS = ['news', 'articles'] as const
 
 export type Section = (typeof SECTIONS)[number]
@@ -6,6 +9,7 @@ export type PostInput = {
   description: string
   date: string
   author: string
+  visibility: Visibility
   body: string
 }
 
@@ -33,7 +37,12 @@ export function validatePost(input: Partial<PostInput>): string[] {
   if (!isText(input.description, 300)) errors.push('description must be 1-300 characters')
   if (!isDate(input.date)) errors.push('date must be a valid YYYY-MM-DD date')
   if (!isText(input.author, 100)) errors.push('author must be 1-100 characters')
+  if (!isVisibility(input.visibility)) errors.push('visibility must be public, members, students, lecturers or internal')
   if (!isText(input.body, 500_000)) errors.push('body must be 1-500000 characters')
+  // Videos are YouTube links only (app/components/content/ProseP.vue); raw embeds would get around that.
+  else if (/<\s*(?:iframe|video|embed|object|script)\b/i.test(input.body)) {
+    errors.push('body cannot contain iframe, video, embed, object or script tags; put a YouTube link on its own line instead')
+  }
   return errors
 }
 
@@ -44,6 +53,7 @@ export function buildPostFile(post: PostInput): string {
     `description: ${JSON.stringify(post.description)}`,
     `date: ${post.date}`,
     `author: ${JSON.stringify(post.author)}`,
+    `visibility: ${post.visibility}`,
     '---',
     '',
     post.body.trim(),
@@ -72,6 +82,7 @@ export function parsePostFile(raw: string): PostInput {
     description: fields.description ?? '',
     date: fields.date ?? '',
     author: fields.author ?? '',
+    visibility: isVisibility(fields.visibility) ? fields.visibility : 'public',
     body: match[2].trim()
   }
 }

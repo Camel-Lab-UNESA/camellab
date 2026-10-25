@@ -2,16 +2,21 @@
 const { locale, t } = useI18n()
 const { data: session } = await authClient.useSession(useFetch)
 
-const fields = ['title', 'description', 'date', 'author', 'minutes', 'path'] as const
+// Posts come through /api/posts, which only returns what the viewer's role may read.
+const requestFetch = useRequestFetch()
 const { data } = await useAsyncData('home', async () => {
-  const [about, news, articles, newsCount, articlesCount] = await Promise.all([
+  const [about, news, articles] = await Promise.all([
     queryCollection('about').path(`/about/${locale.value}`).first(),
-    queryCollection('news').order('date', 'DESC').select(...fields).limit(4).all(),
-    queryCollection('articles').order('date', 'DESC').select(...fields).limit(4).all(),
-    queryCollection('news').count(),
-    queryCollection('articles').count()
+    requestFetch('/api/posts', { query: { section: 'news' } }),
+    requestFetch('/api/posts', { query: { section: 'articles' } })
   ])
-  return { about, news, articles, newsCount, articlesCount }
+  return {
+    about,
+    news: news.slice(0, 4),
+    articles: articles.slice(0, 4),
+    newsCount: news.length,
+    articlesCount: articles.length
+  }
 }, { watch: [locale] })
 
 useSeoMeta({

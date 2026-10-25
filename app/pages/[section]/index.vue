@@ -8,9 +8,7 @@ const route = useRoute()
 const { t } = useI18n()
 const section = route.params.section as 'news' | 'articles'
 
-const { data: posts } = await useAsyncData(`${section}-list`, () =>
-  queryCollection(section).order('date', 'DESC').select('title', 'description', 'date', 'author', 'minutes', 'path').all()
-)
+const { data: posts } = await useFetch('/api/posts', { query: { section } })
 
 const search = ref('')
 // shortcut: filters the whole list in the browser, move to a Content query when pagination lands.

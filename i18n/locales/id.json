@@ -45,7 +45,17 @@
     "minRead": "{n} menit baca",
     "news": "Berita",
     "articles": "Artikel",
-    "backTo": "Semua {section}"
+    "backTo": "Semua {section}",
+    "video": "Video YouTube",
+    "signInTitle": "Khusus anggota",
+    "signInToRead": "Tulisan ini khusus untuk anggota yang sudah masuk. Masuk untuk membacanya."
+  },
+  "visibility": {
+    "public": "Semua orang",
+    "members": "Anggota yang masuk",
+    "students": "Mahasiswa",
+    "lecturers": "Dosen",
+    "internal": "Tim internal"
   },
   "footer": {
     "tagline": "Camellab · Lab riset AI"
@@ -160,8 +170,16 @@
       "link": "Tautan",
       "preview": "Pratinjau — tampilan di situs",
       "visual": "Visual",
-      "markdown": "Markdown"
-    }
+      "markdown": "Markdown",
+      "image": "Gambar",
+      "imageAlt": "Jelaskan gambar ini untuk orang yang tidak bisa melihatnya:",
+      "imageTooLarge": "Ukuran gambar maksimal 4 MB.",
+      "video": "Video YouTube",
+      "videoPrompt": "Tempel tautan YouTube:",
+      "videoInvalid": "Itu bukan tautan video YouTube. Salin alamat halaman video atau tautan Bagikan."
+    },
+    "visibility": "Siapa yang bisa membaca",
+    "visibilityHint": "Tim internal selalu bisa membaca semua tulisan."
   },
   "errors": {
     "generic": "Terjadi kesalahan. Silakan coba lagi.",
