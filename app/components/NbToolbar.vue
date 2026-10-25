@@ -6,7 +6,7 @@ const { data: session } = await authClient.useSession(useFetch)
 
 <template>
   <header class="toolbar">
-    <NuxtLink to="/" class="toolbar-brand" :aria-label="t('nav.home')">Camellab<span class="mono">.ipynb</span></NuxtLink>
+    <NuxtLink to="/" class="toolbar-brand" :aria-label="t('nav.home')"><img src="/logo/camellab-mark.svg" alt="" width="36" height="28" class="toolbar-logo">Camellab<span class="mono">.ipynb</span></NuxtLink>
     <span class="kernel" :data-busy="kernel.state.value.busy">
       <span class="kernel-dot" aria-hidden="true" />
       {{ kernel.state.value.busy ? t('nb.running') : t('nb.idle') }}

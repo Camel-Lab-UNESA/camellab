@@ -15,6 +15,11 @@
     "news": "Berita",
     "articles": "Artikel"
   },
+  "list": {
+    "search": "Cari",
+    "noResults": "Tidak ada hasil untuk “{q}”.",
+    "results": "{n} hasil"
+  },
   "home": {
     "title": "Lab riset AI",
     "aboutAction": "Tentang lab",

@@ -15,6 +15,11 @@
     "news": "News",
     "articles": "Articles"
   },
+  "list": {
+    "search": "Search",
+    "noResults": "No results for “{q}”.",
+    "results": "{n} result | {n} results"
+  },
   "home": {
     "title": "AI research lab",
     "aboutAction": "About the lab",
