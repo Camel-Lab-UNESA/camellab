@@ -17,6 +17,7 @@ const { data: session } = await authClient.useSession(useFetch)
       <NuxtLink to="/articles" class="toolbar-link">{{ t('nav.articles') }}</NuxtLink>
     </nav>
     <LangSwitch />
+    <UButton v-if="session?.user.role === 'internal'" to="/admin" :label="t('nav.admin')" icon="i-lucide-pen-line" color="neutral" variant="ghost" class="toolbar-account" />
     <UButton v-if="session?.user" to="/profile" :label="t('nav.profile')" icon="i-lucide-user-round" color="neutral" variant="outline" class="toolbar-account" />
     <UButton v-else to="/signin" :label="t('nav.signIn')" class="toolbar-account" />
   </header>
