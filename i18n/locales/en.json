@@ -153,7 +153,9 @@
       "orderedList": "Numbered list",
       "quote": "Quote",
       "link": "Link",
-      "preview": "Preview — how it will look on the site"
+      "preview": "Preview — how it will look on the site",
+      "visual": "Visual",
+      "markdown": "Markdown"
     }
   },
   "errors": {

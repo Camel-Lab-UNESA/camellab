@@ -16,6 +16,16 @@ export default defineNuxtConfig({
   content: {
     experimental: { sqliteConnector: 'native' }
   },
+  // The admin preview parses Markdown in the browser. Under pnpm, MDC's own
+  // `extend`/`debug` entries don't resolve, so dev serves those CJS packages raw.
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@nuxtjs/mdc > unified > extend',
+        '@nuxtjs/mdc > remark-parse > mdast-util-from-markdown > micromark > debug'
+      ]
+    }
+  },
   i18n: {
     locales: [
       { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },

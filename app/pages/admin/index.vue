@@ -21,6 +21,8 @@ const form = reactive({ title: '', slug: '', description: '', date: today(), aut
 
 useSeoMeta({ title: () => t('admin.title'), robots: 'noindex' })
 
+const modes = ['visual', 'markdown'] as const
+const mode = ref<(typeof modes)[number]>('visual')
 const tool = (icon: string, key: string, extra: Record<string, unknown>) => ({ icon, tooltip: { text: t(`admin.editor.${key}`) }, 'aria-label': t(`admin.editor.${key}`), ...extra })
 const editorItems = computed(() => [
   [tool('i-lucide-undo-2', 'undo', { kind: 'undo' }), tool('i-lucide-redo-2', 'redo', { kind: 'redo' })],
@@ -206,8 +208,21 @@ onMounted(() => {
           </UFormField>
         </div>
         <UFormField :label="t('admin.body')" required>
+          <div class="mb-2 flex gap-1">
+            <UButton
+              v-for="m in modes"
+              :key="m"
+              :label="t(`admin.editor.${m}`)"
+              color="neutral"
+              :variant="mode === m ? 'solid' : 'ghost'"
+              size="xs"
+              :aria-pressed="mode === m"
+              @click="mode = m"
+            />
+          </div>
           <div class="grid gap-4 lg:grid-cols-2">
-            <UEditor v-slot="{ editor }" v-model="form.body" content-type="markdown" class="min-h-80 rounded-md border border-[var(--mist)]" :ui="{ base: 'p-4' }">
+            <UTextarea v-if="mode === 'markdown'" v-model="form.body" size="lg" class="w-full font-mono" :rows="16" autoresize />
+            <UEditor v-else v-slot="{ editor }" v-model="form.body" content-type="markdown" class="min-h-80 rounded-md border border-[var(--mist)]" :ui="{ base: 'p-4' }">
               <UEditorToolbar :editor="editor" :items="editorItems" class="overflow-x-auto border-b border-[var(--mist)] p-1" />
             </UEditor>
             <div class="min-w-0 rounded-md border border-[var(--mist)] p-4">
