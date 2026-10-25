@@ -1,0 +1,129 @@
+DIRECTION CONCEPT SEED (key: 7613866e; mode: persuade; source: api; approved pool: c3b204a1eed6; 306/564 human-approved; rerun with --scope direction --mode persuade --from 7613866e --candidate-count 7 to reproduce this roll against this catalog revision)
+ASSIGNED INDEX: 6
+  After ordering the grounded directions by resonance, build candidate
+  6 of your own grounded list; the assignment never points at a
+  challenger. The assignment is the roll, not a suggestion: your top-ranked
+  direction is what every run would ship, so the script decides which grounded
+  direction gets built. Each direction joins a durable visual system to a
+  concrete expression for the requested first surface, decided as one. It must
+  survive the current task plus navigation, quiet and dense content,
+  interaction and state, and a substantially different future surface. In an
+  attended run, present the assigned direction fully committed and offer
+  re-roll. You may add ONE card for your top-ranked grounded candidate when
+  it is not the assigned direction, kicker IMPECCABLE’S PICK, with an honest risk line
+  naming its familiarity; one pick card, never a ranked lineup, and the pick
+  never takes the lead position. When the assignment IS your top candidate,
+  there is no pick card. Re-roll yourself only
+  on named factual grounds, when the assignment cannot carry the product's
+  truth or task; taste is never grounds.
+  The assignment exists to refuse the model's ranking rut, never to outrank
+  the user or the brief. Never expose assignment metadata in user-facing labels.
+CHALLENGERS:
+  1. an early-80s rhythm machine step row, sixteen candy-colored step keys under a running chase light, pattern banks behind them and a tempo readout above, accents lighting deeper as the loop swings around again
+     SOURCE ID: signals-instruments-drum-machine-step-row
+     CREATIVE SPARK: you punch four steps into the red quarter of the row and hit run, the chase light comes around, and the empty machine suddenly has a pulse you made, so you lean in and accent the offbeat
+     SYSTEM GRAMMAR:
+       - Palette/material: charcoal panel ground, the step row quartered in red, orange, yellow, and white keys, lit LEDs as the only glow, silkscreen white labels for everything else
+       - Type/composition: instrument names as small silkscreen caps above their rows, the tempo in a red segmented readout, the sixteen-step row as the page's one unbroken line
+       - Topology/navigation: patterns are pages and banks are chapters; the step row is a timeline you write into place, and the chase light always tells you where now is
+       - Controls/state: tapping a step arms it and lights it, a second tap accents it brighter, the chase light sweeps in tempo, and an empty pattern is sixteen dark keys of invitation
+       - Responsive/motion: the sixteen-step row never wraps, it scales; motion is the chase light and a key's press flash, both locked to the clock
+     WEB LEVERAGE: web audio clocks the chase light and playback while each step key stays a toggle button operable by keyboard
+     QUALITY BAR: board https://impeccable.style/worlds/cards/signals-instruments-drum-machine-step-row.webp · hero https://impeccable.style/worlds/cards/signals-instruments-drum-machine-step-row-hero.webp
+  2. a bath of thickened water where pigment floats and is combed into figures before being lifted onto paper in one contact, every mark made by moving liquid rather than by drawing on a surface
+     SOURCE ID: medium-native-ebru-floated-pigment
+     CREATIVE SPARK: Every drop pushes the last one into a ring, and you comb through the whole thing with a single hair before laying a sheet down once and lifting the only copy there will ever be.
+     SYSTEM GRAMMAR:
+       - Palette/material: pigment floating on a thickened bath, colours never mixing but displacing each other, lifted onto sized paper in a single contact
+       - Type/composition: figures drawn by dragging a stylus through floating colour, with each new drop pushing the previous ones outward into rings
+       - Topology/navigation: everything is made on one surface in one pass, so navigation is intervening in a liquid rather than moving between views
+       - Controls/state: controls are stylus strokes, each one permanently displaces the colour around it, and a lift ends the composition
+       - Responsive/motion: the bath fills any frame and figures redistribute, and motion is pigment displacing outward from each new drop
+     WEB LEVERAGE: a fluid-displacement canvas simulation with stylus interaction, irreversible stroke state, and a one-shot lift transition
+     QUALITY BAR: board https://impeccable.style/worlds/cards/medium-native-ebru-floated-pigment.webp · hero https://impeccable.style/worlds/cards/medium-native-ebru-floated-pigment-hero.webp
+  3. a japanese sixteen-color computer screen at 640 by 400, dithered gradients built from crosshatched pixel pairs, a bordered text window docked low and a full-height portrait holding the right of the frame
+     SOURCE ID: digital-design-canon-pc98-sixteen-color-field
+     CREATIVE SPARK: a sunset built entirely out of crosshatched pixel pairs because there is no in-between color to reach for, and it works, and the text window clicks open along the bottom one cell at a time.
+     SYSTEM GRAMMAR:
+       - Palette/material: a locked sixteen-color set where every intermediate tone is an ordered dither of two of them, never a true blend
+       - Type/composition: a bitmap face on a fixed cell grid, a beveled text window docked to the lower band, and artwork owning the upper right
+       - Topology/navigation: the frame is split into fixed regions that never move, and navigation swaps region contents rather than layout
+       - Controls/state: controls are bordered menu rows, the active row inverts its cells, and unavailable rows dither to half density
+       - Responsive/motion: the pixel grid scales only by whole integers, and motion is a per-cell wipe or a palette rotation
+     WEB LEVERAGE: canvas rendering with image-rendering pixelated, integer-only responsive scaling, and palette rotation animation
+     QUALITY BAR: board https://impeccable.style/worlds/cards/digital-design-canon-pc98-sixteen-color-field.webp · hero https://impeccable.style/worlds/cards/digital-design-canon-pc98-sixteen-color-field-hero.webp
+  4. a zoo and gardens guide map, where every area is a swelling lobe of flat colour and the coastline between lobes does all the dividing, and where a lobe can open in its middle so the page ground shows through it as water
+     SOURCE ID: aww2-zoo-gardens-guide-map
+     CREATIVE SPARK: A summer opening-morning guide map creased into eight panels: an apple-green headland swelling across the fold, a coral flamingo standing right on its edge with one foot out over the cream, and a yellow capsule pinned to the coastline reading GATE.
+     SYSTEM GRAMMAR:
+       - Palette/material: Flat unmodulated colour, no grain: green #8ED462 land on cream #F5F1E4 water, ink #2C2E2A. Photographs keep their own colour, cropped to a lobe, never tinted.
+       - Type/composition: One grotesk at one weight; display at 0.95 leading, -0.06em. Prose is ink on cream, white, green or yellow; coral and blue carry labels only.
+       - Topology/navigation: One lobe dominates each screen, swelling until its coast leaves the frame on two sides; a lobe may open in its middle and let the ground through as water.
+       - Controls/state: Controls are capsules in yellow #F5E211, coral #FF705D, blue #2BA0FF, lilac #EBC1FF; a round chip rides its trailing edge and crosses to the leading edge when live.
+       - Responsive/motion: Everything that moves takes 0.4s and overshoots before settling. Scroll redraws the coastline continuously; at narrow widths the coast runs down the frame.
+     WEB LEVERAGE: Every area is one SVG path; scroll advances a single timeline that morphs the coastline, and the same path clips the illustration and the type, so one geometry drives layout, art and state together.
+     QUALITY BAR: board https://impeccable.style/worlds/cards/aww2-zoo-gardens-guide-map.webp · hero https://impeccable.style/worlds/cards/aww2-zoo-gardens-guide-map-hero.webp
+  5. a kiln shelf beneath a row of heavily glazed cups, where molten color pools, runs, stops, and sometimes welds the vessel to the floor
+     SOURCE ID: clay-ceramics-fracture-glaze-river-shelf
+     CREATIVE SPARK: A cobalt glaze reaches the foot in one thick tear, freezes a millimeter above the shelf, while the cup beside it spills into a glassy blue puddle.
+     SYSTEM GRAMMAR:
+       - Palette/material: chalk-white kiln shelf as the ground, cobalt glaze runs as the accent flow, fused puddles hardening to glassy sapphire for the warning state
+       - Type/composition: monospaced batch numerals on recipe cards beside each cup, samples ranked in one shelf row, gravity setting the vertical reading order
+       - Topology/navigation: Connect recipe, thickness, kiln position, vertical path, and final pool for each sample.
+       - Controls/state: Apply, fire, flow, arrest, and compare with dry, melting, running, pooled, and fused states.
+       - Responsive/motion: Replace molten flow with registered stage overlays and keep recipe and risk visible beside every sample.
+     WEB LEVERAGE: A viscosity-and-slope model can predict meaningful thresholds while remaining bounded to selected samples.
+     QUALITY BAR: board https://impeccable.style/worlds/cards/clay-ceramics-fracture-glaze-river-shelf.webp · hero https://impeccable.style/worlds/cards/clay-ceramics-fracture-glaze-river-shelf-hero.webp
+  6. an industrial streetwear grammar, ordinary words set in straight quotation marks, zip-tie tags left on, diagonal hazard stripes crossing white cotton and black nylon
+     SOURCE ID: textiles-weave-drape-fashion-industrial-quote-grammar
+     CREATIVE SPARK: You lift a jacket and the zip-tie tag clacks against the hanger; across the back, giant caps in straight quotes name the obvious, and a hazard stripe runs diagonally under the fluorescent light of the stockroom.
+     SYSTEM GRAMMAR:
+       - Palette/material: stockroom white cotton and black nylon as ground and ink, black-on-white hazard diagonals for structure, safety orange zip-tie tags as the accent
+       - Type/composition: bold industrial caps inside straight quotation marks naming the obvious, label plates set square on the grid like stenciled crates
+       - Topology/navigation: every zone is labeled with its literal quoted name, wayfinding is reading, and the hazard stripe runs diagonally under whatever matters
+       - Controls/state: the active item keeps its orange zip tie on, toggles read "ON" and "OFF" in quotes, disabled things take the diagonal stripe across them
+       - Responsive/motion: stripes hold 45 degrees at every width while label plates stack; motion is a tag swinging once on selection
+     WEB LEVERAGE: css repeating-linear-gradient hazard stripes at 45deg, generated content wrapping every label in straight quotes via ::before and ::after
+     QUALITY BAR: board https://impeccable.style/worlds/cards/textiles-weave-drape-fashion-industrial-quote-grammar.webp · hero https://impeccable.style/worlds/cards/textiles-weave-drape-fashion-industrial-quote-grammar-hero.webp
+Fuse each challenger before judging it: the challenger supplies the form
+  and its system grammar, the product supplies every fact, and clarity wins
+  conflicts. Weigh the fused result against the assigned direction on exactly
+  two axes, audience identification and product clarity. Losing to strong
+  grounded material is a valid outcome; beating a thin or tool-monoculture
+  list is the point. A fused challenger that wins both axes becomes the build.
+  Close the weighing with a verdict per challenger, decided before any
+  borrowing is considered: wins (beats the assigned direction on both axes),
+  competitive (holds one axis), or declined (loses both). A declined
+  challenger is not spent: name the one discipline of its system the assigned
+  direction lacks, and raise the assigned direction to match before
+  presenting it. A donation transfers ambition and system discipline, never
+  the challenger's clothes; one world owns the page. Write each raise as its
+  own named line on the presented direction, and carry every verdict, kept
+  line, and raise into the decision page payload.
+When you can view images, open the QUALITY BAR board and hero for any
+challenger you weigh seriously and for the world you build. They exist as a
+craft bar, the finish level and commitment the build is expected to reach,
+never as a mockup to copy; your surface serves this product, not that render.
+PRODUCT.md and explicit incumbent brand commitments constrain every direction.
+The seed never chooses exact colors, fonts, tokens, or a user preference, and
+it never permits the world and first surface to be selected independently.
+The CREATIVE SPARK is a complete visual system, not a theme or decorative
+reference. Translate every supplied system rule into the product: palette and
+material, type and composition, topology, controls and states, and adaptation.
+Keep the source's visible character, scale, rhythm, and interaction instead of
+reducing vivid grammar to generic nouns. When the source is already a credible
+interface language, commit to it across navigation, content, controls, and
+states. Otherwise keep a literal carrier only when it becomes functional.
+Ambitious motion, spatial media, or interaction is welcome when it strengthens
+the product without weakening semantics, performance, or fallback behavior.
+TELEMETRY: after the user's choice resolves, rerun this script once with
+  --kind <assigned|pick|challenger|canon> --from 7613866e --scope direction --mode persuade,
+  adding --chosen <challenger-id> when a dealt challenger won and keeping
+  --register <safer|bolder> when the resolved round came from a steered hand.
+  One ping per resolved attended round. The ping is anonymous, the card kind
+  plus the catalog id when one won; your grounded candidates' names never
+  leave the machine, and the ping is skipped automatically when DO_NOT_TRACK
+  or IMPECCABLE_NO_TELEMETRY is set.
+A user- or brief-pinned decision beats the roll, always.
+ASSIGNED INDEX (restated for truncated readers): 6. Build candidate
+6 of your own grounded list; seed key 7613866e.

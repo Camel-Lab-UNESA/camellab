@@ -1,0 +1,36 @@
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  modules: ['@nuxt/eslint', '@nuxt/content', '@nuxt/image', '@nuxt/ui', '@nuxtjs/i18n'],
+  css: ['~/assets/css/main.css'],
+  compatibilityDate: '2025-07-15',
+  devtools: { enabled: true },
+  app: {
+    head: { titleTemplate: '%s · Camellab' }
+  },
+  // Light only: the poster world is printed matter. Fonts are self-hosted from @fontsource.
+  ui: { colorMode: false, fonts: false },
+  // Singapore; keep in the same region as the Supabase project (ap-southeast-1).
+  nitro: {
+    vercel: { functions: { regions: ['sin1'] } }
+  },
+  content: {
+    experimental: { sqliteConnector: 'native' }
+  },
+  i18n: {
+    locales: [
+      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+      { code: 'id', language: 'id-ID', name: 'Bahasa Indonesia', file: 'id.json' }
+    ],
+    defaultLocale: 'en',
+    strategy: 'no_prefix',
+    // server/utils/auth.ts reads this cookie to pick the email language.
+    detectBrowserLanguage: { useCookie: true, cookieKey: 'i18n_locale', fallbackLocale: 'en' }
+  },
+  hooks: {
+    'content:file:afterParse'({ file, content, collection }) {
+      if (collection.name === 'news' || collection.name === 'articles') {
+        content.minutes = Math.max(1, Math.round(file.body.split(/\s+/).length / 200))
+      }
+    }
+  }
+})

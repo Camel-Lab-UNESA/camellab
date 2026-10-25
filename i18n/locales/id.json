@@ -1,0 +1,157 @@
+{
+  "nav": {
+    "home": "Beranda Camellab",
+    "news": "Berita",
+    "articles": "Artikel",
+    "signIn": "Masuk",
+    "profile": "Profil",
+    "language": "Bahasa",
+    "skip": "Langsung ke konten",
+    "main": "Utama",
+    "footer": "Kaki halaman"
+  },
+  "sections": {
+    "news": "Berita",
+    "articles": "Artikel"
+  },
+  "home": {
+    "title": "Lab riset AI",
+    "aboutAction": "Tentang lab",
+    "about": "Tentang lab",
+    "latestNews": "Berita terbaru",
+    "articles": "Artikel",
+    "allNews": "Semua berita",
+    "allArticles": "Semua artikel",
+    "noNews": "Belum ada berita. Kunjungi lagi nanti.",
+    "noArticles": "Belum ada artikel. Kunjungi lagi nanti.",
+    "join": "Gabung dengan lab",
+    "joinText": "Siapa pun bisa bergabung. Buat akun dan lengkapi profil Anda.",
+    "joinAction": "Buat akun",
+    "joinSignIn": "Saya sudah punya akun",
+    "signedInAs": "Masuk sebagai {name}.",
+    "openProfile": "Buka profil Anda",
+    "account": "Akun Anda",
+    "logNews": "memuat {n} berita",
+    "logArticles": "memuat {n} artikel",
+    "logLanguages": "bahasa: English, Bahasa Indonesia"
+  },
+  "post": {
+    "minRead": "{n} menit baca",
+    "news": "Berita",
+    "articles": "Artikel",
+    "backTo": "Semua {section}"
+  },
+  "footer": {
+    "tagline": "Camellab · Lab riset AI"
+  },
+  "form": {
+    "required": "Wajib diisi",
+    "email": "Masukkan email yang valid",
+    "username": "3 sampai 30 huruf, angka, titik, atau garis bawah",
+    "password": "Minimal 8 karakter"
+  },
+  "signin": {
+    "title": "Masuk",
+    "identifier": "Email atau nama pengguna",
+    "password": "Kata sandi",
+    "forgot": "Lupa kata sandi?",
+    "submit": "Masuk",
+    "noAccount": "Belum punya akun?",
+    "signUp": "Daftar",
+    "confirmFirst": "Konfirmasi email Anda dulu",
+    "sentNewLink": "Kami sudah mengirim tautan konfirmasi baru.",
+    "failed": "Gagal masuk"
+  },
+  "signup": {
+    "title": "Buat akun",
+    "name": "Nama lengkap",
+    "username": "Nama pengguna",
+    "usernameHelp": "Huruf, angka, titik, dan garis bawah",
+    "email": "Email",
+    "password": "Kata sandi",
+    "passwordHelp": "Minimal 8 karakter",
+    "role": "Saya seorang",
+    "student": "Mahasiswa",
+    "lecturer": "Dosen",
+    "submit": "Daftar",
+    "haveAccount": "Sudah punya akun?",
+    "signIn": "Masuk",
+    "checkInbox": "Cek kotak masuk Anda",
+    "sentTo": "Kami mengirim tautan konfirmasi ke {email}. Buka tautan itu untuk menyelesaikan pendaftaran.",
+    "failed": "Gagal mendaftar"
+  },
+  "forgot": {
+    "title": "Lupa kata sandi?",
+    "email": "Email",
+    "submit": "Kirim tautan reset",
+    "remembered": "Sudah ingat?",
+    "signIn": "Masuk",
+    "checkInbox": "Cek kotak masuk Anda",
+    "sent": "Jika ada akun untuk {email}, kami telah mengirim tautan untuk membuat kata sandi baru. Tautan berlaku selama 1 jam.",
+    "failed": "Gagal mengirim tautan reset"
+  },
+  "reset": {
+    "title": "Buat kata sandi baru",
+    "password": "Kata sandi baru",
+    "passwordHelp": "Minimal 8 karakter",
+    "confirm": "Ulangi kata sandi baru",
+    "mismatch": "Kata sandi tidak sama",
+    "submit": "Simpan kata sandi",
+    "updated": "Kata sandi diperbarui",
+    "signInNew": "Masuk dengan kata sandi baru Anda.",
+    "invalidTitle": "Tautan ini tidak berlaku",
+    "invalidText": "Tautan mungkin sudah kedaluwarsa atau sudah dipakai. Minta tautan baru.",
+    "requestNew": "Minta tautan baru",
+    "failed": "Gagal mengatur ulang kata sandi"
+  },
+  "profile": {
+    "title": "Profil",
+    "name": "Nama lengkap",
+    "username": "Nama pengguna",
+    "department": "Jurusan atau program studi",
+    "bio": "Bio",
+    "save": "Simpan",
+    "saved": "Profil disimpan",
+    "saveFailed": "Gagal menyimpan",
+    "signOut": "Keluar",
+    "roles": {
+      "student": "Mahasiswa",
+      "lecturer": "Dosen",
+      "internal": "Internal"
+    }
+  },
+  "errors": {
+    "generic": "Terjadi kesalahan. Silakan coba lagi.",
+    "INVALID_EMAIL_OR_PASSWORD": "Email atau kata sandi salah.",
+    "INVALID_USERNAME_OR_PASSWORD": "Nama pengguna atau kata sandi salah.",
+    "USER_ALREADY_EXISTS": "Sudah ada akun dengan email ini.",
+    "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "Sudah ada akun dengan email ini.",
+    "USERNAME_IS_ALREADY_TAKEN": "Nama pengguna itu sudah dipakai. Coba yang lain.",
+    "USERNAME_TOO_SHORT": "Nama pengguna minimal 3 karakter.",
+    "INVALID_USERNAME": "Nama pengguna hanya boleh berisi huruf, angka, titik, dan garis bawah.",
+    "PASSWORD_TOO_SHORT": "Kata sandi minimal 8 karakter.",
+    "INVALID_TOKEN": "Tautan ini sudah kedaluwarsa atau sudah dipakai."
+  },
+  "nb": {
+    "run": "Jalankan ulang sel (Shift+Enter)",
+    "idle": "Siap",
+    "running": "Berjalan",
+    "plotLabel": "Kurva loss ilustrasi yang terus diperbarui",
+    "plotCaption": "Plot ilustrasi, bukan hasil riset lab",
+    "saved": "Tersimpan.",
+    "runAll": "Jalankan semua",
+    "state": {
+      "idle": "Belum dijalankan",
+      "queued": "Dalam antrean",
+      "running": "Berjalan",
+      "done": "Selesai, eksekusi {n}",
+      "error": "Gagal, eksekusi {n}"
+    }
+  },
+  "df": {
+    "title": "judul",
+    "date": "tanggal",
+    "read": "baca",
+    "rows": "[{n} baris]"
+  }
+}

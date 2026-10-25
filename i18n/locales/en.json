@@ -1,0 +1,157 @@
+{
+  "nav": {
+    "home": "Camellab home",
+    "news": "News",
+    "articles": "Articles",
+    "signIn": "Sign in",
+    "profile": "Profile",
+    "language": "Language",
+    "skip": "Skip to content",
+    "main": "Main",
+    "footer": "Footer"
+  },
+  "sections": {
+    "news": "News",
+    "articles": "Articles"
+  },
+  "home": {
+    "title": "AI research lab",
+    "aboutAction": "About the lab",
+    "about": "About the lab",
+    "latestNews": "Latest news",
+    "articles": "Articles",
+    "allNews": "All news",
+    "allArticles": "All articles",
+    "noNews": "No news yet. Check back soon.",
+    "noArticles": "No articles yet. Check back soon.",
+    "join": "Join the lab",
+    "joinText": "Anyone can join. Make an account and set up your profile.",
+    "joinAction": "Create an account",
+    "joinSignIn": "I already have one",
+    "signedInAs": "Signed in as {name}.",
+    "openProfile": "Open your profile",
+    "account": "Your account",
+    "logNews": "loaded {n} news post | loaded {n} news posts",
+    "logArticles": "loaded {n} article | loaded {n} articles",
+    "logLanguages": "languages: English, Bahasa Indonesia"
+  },
+  "post": {
+    "minRead": "{n} min read",
+    "news": "News",
+    "articles": "Article",
+    "backTo": "All {section}"
+  },
+  "footer": {
+    "tagline": "Camellab · AI research lab"
+  },
+  "form": {
+    "required": "Required",
+    "email": "Enter a valid email",
+    "username": "3 to 30 letters, numbers, dots or underscores",
+    "password": "At least 8 characters"
+  },
+  "signin": {
+    "title": "Sign in",
+    "identifier": "Email or username",
+    "password": "Password",
+    "forgot": "Forgot password?",
+    "submit": "Sign in",
+    "noAccount": "No account yet?",
+    "signUp": "Sign up",
+    "confirmFirst": "Confirm your email first",
+    "sentNewLink": "We sent you a new confirmation link.",
+    "failed": "Sign in failed"
+  },
+  "signup": {
+    "title": "Create an account",
+    "name": "Full name",
+    "username": "Username",
+    "usernameHelp": "Letters, numbers, dots and underscores",
+    "email": "Email",
+    "password": "Password",
+    "passwordHelp": "At least 8 characters",
+    "role": "I am a",
+    "student": "Student",
+    "lecturer": "Lecturer",
+    "submit": "Sign up",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "checkInbox": "Check your inbox",
+    "sentTo": "We sent a confirmation link to {email}. Open it to finish signing up.",
+    "failed": "Sign up failed"
+  },
+  "forgot": {
+    "title": "Forgot your password?",
+    "email": "Email",
+    "submit": "Send reset link",
+    "remembered": "Remembered it?",
+    "signIn": "Sign in",
+    "checkInbox": "Check your inbox",
+    "sent": "If an account exists for {email}, we sent it a link to choose a new password. The link expires in 1 hour.",
+    "failed": "Could not send the reset link"
+  },
+  "reset": {
+    "title": "Choose a new password",
+    "password": "New password",
+    "passwordHelp": "At least 8 characters",
+    "confirm": "Confirm new password",
+    "mismatch": "Passwords don't match",
+    "submit": "Update password",
+    "updated": "Password updated",
+    "signInNew": "Sign in with your new password.",
+    "invalidTitle": "This link doesn't work",
+    "invalidText": "It may have expired or already been used. Request a new one.",
+    "requestNew": "Request a new link",
+    "failed": "Could not reset the password"
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Full name",
+    "username": "Username",
+    "department": "Department or program",
+    "bio": "Bio",
+    "save": "Save",
+    "saved": "Profile saved",
+    "saveFailed": "Could not save",
+    "signOut": "Sign out",
+    "roles": {
+      "student": "Student",
+      "lecturer": "Lecturer",
+      "internal": "Internal"
+    }
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "INVALID_EMAIL_OR_PASSWORD": "Wrong email or password.",
+    "INVALID_USERNAME_OR_PASSWORD": "Wrong username or password.",
+    "USER_ALREADY_EXISTS": "An account with this email already exists.",
+    "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "An account with this email already exists.",
+    "USERNAME_IS_ALREADY_TAKEN": "That username is taken. Try another one.",
+    "USERNAME_TOO_SHORT": "Usernames need at least 3 characters.",
+    "INVALID_USERNAME": "Usernames can only use letters, numbers, dots and underscores.",
+    "PASSWORD_TOO_SHORT": "Passwords need at least 8 characters.",
+    "INVALID_TOKEN": "This link has expired or was already used."
+  },
+  "nb": {
+    "run": "Run cell again (Shift+Enter)",
+    "idle": "Idle",
+    "running": "Running",
+    "plotLabel": "Illustrative loss curve that keeps updating",
+    "plotCaption": "Illustrative plot, not real lab results",
+    "saved": "Saved.",
+    "runAll": "Run all",
+    "state": {
+      "idle": "Not run yet",
+      "queued": "Queued",
+      "running": "Running",
+      "done": "Done, execution {n}",
+      "error": "Failed, execution {n}"
+    }
+  },
+  "df": {
+    "title": "title",
+    "date": "date",
+    "read": "read",
+    "rows": "[{n} row] | [{n} rows]"
+  }
+}

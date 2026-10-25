@@ -1,0 +1,371 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+@import "@fontsource-variable/archivo/wdth.css";
+@import "@fontsource-variable/jetbrains-mono";
+
+@theme {
+  --font-sans: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Static: Nuxt UI reads these at runtime, so Tailwind must emit them even when no utility uses them. */
+@theme static {
+  --color-ink-50: #fafaf9;
+  --color-ink-100: #edeef1;
+  --color-ink-200: #dcdee3;
+  --color-ink-300: #c2c5cc;
+  --color-ink-400: #8e929b;
+  --color-ink-500: #61656e;
+  --color-ink-600: #4a4e57;
+  --color-ink-700: #353840;
+  --color-ink-800: #22252b;
+  --color-ink-900: #111318;
+  --color-ink-950: #0a0b0e;
+
+  --color-ultra-50: #eef0fd;
+  --color-ultra-100: #dce0fb;
+  --color-ultra-200: #b9c0f6;
+  --color-ultra-300: #8e99ef;
+  --color-ultra-400: #5e6be3;
+  --color-ultra-500: #2f3bd6;
+  --color-ultra-600: #2731b5;
+  --color-ultra-700: #202892;
+  --color-ultra-800: #1a2174;
+  --color-ultra-900: #151a5b;
+  --color-ultra-950: #0c0f36;
+}
+
+:root {
+  /* Locked palette: no gradients, no blends. Red appears only inside error output. */
+  --paper: #fafaf9;
+  --ink: #111318;
+  --ultra: #2f3bd6;
+  --amber: #f5a524;
+  --mist: #edeef1;
+  --muted: #4a4e57;
+  --rule: #c2c5cc;
+  --err-bg: #fdecea;
+  --err-ink: #8a1c0d;
+
+  /* One clock for every animation; useKernel reads this value too. */
+  --beat: 140ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --edge: 1rem;
+  --gutter-w: 0px;
+  --toolbar-h: 3.5rem;
+
+  --ui-radius: 0.375rem;
+  --ui-bg: var(--paper);
+  --ui-bg-muted: var(--mist);
+  --ui-bg-elevated: #ffffff;
+  --ui-bg-accented: #dcdee3;
+  --ui-text-dimmed: #61656e;
+  --ui-text-muted: var(--muted);
+  --ui-text-toned: #353840;
+  --ui-text: #22252b;
+  --ui-text-highlighted: var(--ink);
+  --ui-border: #dcdee3;
+  --ui-border-muted: var(--mist);
+  --ui-border-accented: var(--rule);
+}
+
+@media (min-width: 48rem) {
+  :root { --edge: 2rem; --gutter-w: 5.5rem; }
+}
+
+@layer base {
+  html { background: var(--paper); scrollbar-color: var(--rule) var(--paper); }
+  body { background: var(--paper); color: var(--ui-text); font-size: 1.0625rem; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--amber); color: var(--ink); }
+  input, textarea { caret-color: var(--ultra); }
+  a { text-underline-offset: 0.2em; text-decoration-thickness: 1.5px; }
+  :focus-visible { outline: 2px solid var(--ultra); outline-offset: 2px; }
+  code, kbd, samp, pre { font-family: var(--font-mono); }
+}
+
+@layer components {
+  .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+  .skip {
+    position: absolute;
+    left: var(--edge);
+    top: -4rem;
+    z-index: 60;
+    padding: 0.5rem 0.9rem;
+    border-radius: var(--ui-radius);
+    background: var(--ink);
+    color: #fff;
+  }
+  .skip:focus { top: 0.5rem; }
+
+  /* Toolbar */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+    min-height: var(--toolbar-h);
+    padding: 0.5rem var(--edge);
+    background: var(--paper);
+    border-bottom: 1px solid var(--mist);
+  }
+  .toolbar-brand {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.1rem;
+    font-size: 1.125rem;
+    font-weight: 800;
+    font-stretch: 112%;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .toolbar-brand .mono { font-size: 0.875rem; font-weight: 500; font-stretch: 100%; letter-spacing: 0; color: var(--muted); }
+  .kernel { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8125rem; color: var(--muted); }
+  .kernel-dot { width: 0.55rem; height: 0.55rem; border-radius: 9999px; background: var(--ultra); transition: background-color var(--beat) linear; }
+  .kernel[data-busy="true"] .kernel-dot { background: var(--amber); animation: pulse calc(var(--beat) * 4) steps(2, jump-none) infinite; }
+  .toolbar-nav { display: flex; gap: 1.25rem; margin-left: auto; }
+  .toolbar-link { font-weight: 600; color: var(--ink); text-decoration: none; padding-block: 0.2rem; border-bottom: 2px solid transparent; transition: border-color var(--beat) linear; }
+  .toolbar-link:hover { border-bottom-color: var(--rule); }
+  .toolbar-link.router-link-active { border-bottom-color: var(--ultra); color: var(--ultra); }
+
+  .lang { display: inline-flex; padding: 2px; border-radius: var(--ui-radius); background: var(--mist); }
+  .lang button {
+    min-width: 2.25rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: calc(var(--ui-radius) - 2px);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: background-color var(--beat) linear, color var(--beat) linear;
+  }
+  .lang button[aria-pressed="true"] { background: #fff; color: var(--ink); }
+
+  /* Phones: brand, language and account on top; sections and kernel status underneath. */
+  @media (max-width: 47.99rem) {
+    .toolbar { gap: 0.5rem 0.75rem; }
+    .lang { order: 1; margin-left: auto; }
+    .toolbar-account { order: 2; }
+    .toolbar-nav { order: 3; margin-left: 0; }
+    .kernel { order: 4; margin-left: auto; }
+  }
+
+  /* Cells */
+  .notebook { padding: 1rem var(--edge) 4rem; }
+  .cell {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--gutter-w) minmax(0, 1fr);
+    padding-block: 0.75rem;
+    outline: none;
+  }
+  .cell + .cell { margin-top: 1.5rem; }
+  .cell-gutter {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    padding: 0.7rem 0.9rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .cell-bar {
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    width: 3px;
+    border-radius: 2px;
+    background: transparent;
+    transition: background-color var(--beat) linear;
+  }
+  .cell:hover .cell-bar { background: var(--mist); }
+  .cell:focus .cell-bar { background: var(--ultra); }
+  .cell[data-state="queued"] .cell-bar { background: var(--rule); }
+  .cell[data-state="running"] .cell-bar { background: var(--amber); }
+  .cell[data-state="error"] .cell-bar { background: var(--ink); }
+  .cell-count { transition: color var(--beat) linear; }
+  .cell[data-state="done"] .cell-count { color: var(--ultra); }
+  .cell[data-state="error"] .cell-count { color: var(--ink); font-weight: 700; }
+  .cell-time { flex-basis: 100%; text-align: right; font-size: 0.75rem; color: var(--muted); }
+  .cell-run {
+    display: inline-grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-top: -0.2rem;
+    border-radius: 9999px;
+    color: var(--ink);
+    opacity: 0;
+    transition: opacity var(--beat) linear, background-color var(--beat) linear;
+    cursor: pointer;
+  }
+  .cell[data-ran] .cell-run { opacity: 1; color: var(--muted); }
+  .cell:hover .cell-run, .cell:focus-within .cell-run, .cell-run:focus-visible { opacity: 1; color: var(--ink); }
+  .cell-run:hover { background: var(--mist); }
+
+  /* Phones: the gutter becomes a small row above the cell. */
+  @media (max-width: 47.99rem) {
+    .cell { grid-template-columns: minmax(0, 1fr); padding-left: 0.75rem; }
+    .cell-gutter { justify-content: flex-start; flex-wrap: nowrap; padding: 0 0 0.35rem; }
+    .cell-time { flex-basis: auto; margin-left: 0.25rem; }
+    .cell[data-kind="md"] .cell-gutter { display: none; }
+    .cell-run { opacity: 1; }
+  }
+
+  .cell-in {
+    overflow-x: auto;
+    padding: 0.7rem 0.95rem;
+    border-radius: var(--ui-radius);
+    background: var(--mist);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .cell-in .fn { color: var(--ultra); }
+  .caret { display: inline-block; width: 0.55ch; height: 1.1em; margin-left: 1px; vertical-align: -0.2em; background: var(--ink); animation: blink calc(var(--beat) * 4) steps(2, jump-none) infinite; }
+
+  /* Output displaces the cells below it instead of fading in place. */
+  .cell-out-wrap { display: grid; grid-template-rows: 1fr; transition: grid-template-rows calc(var(--beat) * 4) var(--ease-out); }
+  .cell-out { min-height: 0; overflow: hidden; }
+  .cell-out-inner { padding-top: 1rem; }
+  .nb-js .cell:not([data-ran]):not([data-state="error"]) .cell-out-wrap { grid-template-rows: 0fr; }
+  .nb-js .cell[data-typed]:not([data-ran]):not([data-state="running"]) .cell-in code { visibility: hidden; }
+
+  /* Rows and lines arrive on the beat, swept left to right. */
+  .nb-js .cell:not([data-ran]) .stream { clip-path: inset(0 100% 0 0); }
+  .nb-js .cell[data-ran] .stream {
+    animation: sweep calc(var(--beat) * 2) linear both;
+    animation-delay: calc(var(--i, 0) * var(--beat) + var(--beat) * 2);
+  }
+
+  .stdout { font-family: var(--font-mono); font-size: 0.9375rem; color: var(--ink); white-space: pre-wrap; }
+  .stdout .ok { color: var(--ultra); }
+  .stderr { padding: 0.7rem 0.95rem; border-radius: var(--ui-radius); background: var(--err-bg); color: var(--err-ink); font-family: var(--font-mono); font-size: 0.9375rem; }
+
+  /* Hero output */
+  /* The wordmark is sized to its output's width, so it always spans the cell. */
+  .hero-out { container-type: inline-size; }
+  .hero-title {
+    font-size: 18.9cqi; /* "Camellab" sets 5.21em wide at this width and weight */
+    font-weight: 800;
+    font-stretch: 118%;
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin-left: -0.05em;
+  }
+  /* Title on top; log, lab line, action and plot sit together as one row anchored to the fold. */
+  .hero-grid { display: grid; gap: 2rem; margin-top: 2rem; align-items: end; align-content: end; }
+  .hero-left { display: flex; flex-direction: column; gap: 1.75rem; }
+  .hero-log { display: grid; gap: 0.2rem; font-size: 0.875rem; color: var(--muted); }
+  .hero-log li::before { content: "> "; color: var(--ultra); }
+  /* The hero output ends at the fold: the remaining height after toolbar, code well and paddings. */
+  @media (min-width: 48rem) {
+    .hero-out { display: flex; flex-direction: column; min-height: calc(100svh - var(--toolbar-h) - 6.5rem); }
+    .hero-grid { flex: 1; }
+  }
+  .hero-line { font-size: 1.25rem; line-height: 1.45; font-weight: 500; color: var(--ink); max-width: 34ch; text-wrap: balance; }
+  @media (min-width: 64rem) {
+    .hero-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 3rem; }
+  }
+
+  .plot { display: block; width: 100%; height: auto; overflow: visible; }
+  .plot .axis { stroke: var(--ink); stroke-width: 1; }
+  .plot .grid { stroke: var(--mist); stroke-width: 1; }
+  .plot .tick { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
+  .plot .curve { fill: none; stroke: var(--ultra); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 1; transition: stroke-dashoffset calc(var(--beat) * 10) linear; }
+  .nb-js .cell:not([data-ran]) .plot .curve { stroke-dashoffset: 1; }
+  .plot .head { fill: var(--amber); }
+  /* Indented to the y-axis: NbPlot PAD.l / W = 64 / 640. */
+  .plot-caption { margin-top: 0.4rem; padding-left: 10%; font-size: 0.8125rem; color: var(--muted); }
+  /* Phones show the plot at about half scale; double the tick size so labels land near 11px. */
+  @media (max-width: 47.99rem) {
+    .plot .tick { font-size: 22px; }
+  }
+
+  /* Markdown cell output */
+  .md h1 { font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 800; font-stretch: 112%; letter-spacing: -0.035em; line-height: 0.95; color: var(--ink); text-wrap: balance; max-width: 20ch; }
+  .md h2 { font-size: 2rem; font-weight: 800; font-stretch: 112%; letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); }
+  .md-meta { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-family: var(--font-mono); font-size: 0.875rem; color: var(--muted); }
+
+  /* DataFrame output */
+  .df { overflow-x: auto; }
+  .df table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+  .df th, .df td { padding: 0.65rem 0.9rem; text-align: left; vertical-align: top; }
+  .df thead th { font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 700; color: var(--ink); border-bottom: 1px solid var(--ink); }
+  .df tbody th { width: 2.5rem; font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 700; color: var(--muted); }
+  .df tbody tr { position: relative; }
+  .df tbody tr:nth-child(even) { background: var(--mist); }
+  .df .num { font-family: var(--font-mono); font-size: 0.875rem; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .df .t { font-weight: 700; color: var(--ink); text-decoration: none; }
+  .df .t::after { content: ""; position: absolute; inset: 0; }
+  .df .t:hover { color: var(--ultra); text-decoration: underline; }
+  .df .t:focus-visible { outline: none; }
+  .df tbody tr:has(.t:focus-visible) { outline: 2px solid var(--ultra); outline-offset: -2px; }
+  .df .d { margin-top: 0.25rem; max-width: 70ch; color: var(--muted); }
+  .df .shape { margin-top: 0.6rem; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); }
+  .df .lead .t { font-size: 1.375rem; font-stretch: 108%; letter-spacing: -0.015em; }
+  @media (max-width: 47.99rem) {
+    .df .col-date, .df .col-read { display: none; }
+  }
+
+  /* Account forms live in a cell's output, as widgets. */
+  .widget { max-width: 30rem; }
+  .widget-wide { max-width: 44rem; }
+  .widget-foot { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--mist); }
+
+  /* Disabled controls are hatched, not just faded. */
+  button:disabled, [aria-disabled="true"] {
+    background-image: repeating-linear-gradient(45deg, transparent 0 6px, var(--rule) 6px 7px);
+  }
+
+  .site-foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    padding: 1.25rem var(--edge);
+    border-top: 1px solid var(--mist);
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .site-foot nav { display: flex; gap: 1.25rem; }
+  .site-foot a { font-weight: 600; color: var(--ink); text-decoration: none; }
+  .site-foot a:hover { color: var(--ultra); }
+
+  .link { color: var(--ultra); font-weight: 600; text-decoration: underline; }
+}
+
+/* Long-form text. Unlayered on purpose: it has to win over Nuxt UI's prose utilities. */
+.prose-nb { max-width: 68ch; line-height: 1.7; color: var(--ui-text); }
+.prose-nb > * { margin-block: 0 1em; }
+.prose-nb h2 { margin-block: 2em 0.5em; font-size: 1.75rem; font-weight: 800; font-stretch: 112%; letter-spacing: -0.02em; line-height: 1.15; color: var(--ink); }
+.prose-nb h2 a, .prose-nb h3 a { color: inherit; text-decoration: none; }
+.prose-nb h3 { margin-block: 1.6em 0.4em; font-size: 1.2rem; font-weight: 800; color: var(--ink); }
+.prose-nb p { font-size: 1.0625rem; line-height: 1.7; }
+.prose-nb a { color: var(--ultra); font-weight: 600; text-decoration: underline; }
+.prose-nb ul, .prose-nb ol { padding-left: 1.25em; }
+.prose-nb li { margin-block: 0.3em; }
+.prose-nb :not(pre) > code { padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.9em; background: var(--mist); border: 0; color: var(--ink); }
+/* Code in posts stays ink on the mist well: the locked palette has no syntax colours. */
+.prose-nb .shiki span { color: var(--ink); }
+.prose-nb pre { overflow-x: auto; padding: 0.9rem 1rem; border-radius: var(--ui-radius); background: var(--mist); color: var(--ink); font-size: 0.9375em; border: 0; }
+.prose-nb blockquote { padding-left: 1.25rem; font-style: italic; color: var(--muted); border: 0; }
+
+@keyframes sweep { to { clip-path: inset(0 0 0 0); } }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes pulse { 50% { opacity: 0.35; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; }
+}
