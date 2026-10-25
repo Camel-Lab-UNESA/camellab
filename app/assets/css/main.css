@@ -241,7 +241,6 @@
   .nb-js .cell:not([data-ran]):not([data-state="error"]) .cell-out-wrap { grid-template-rows: 0fr; }
   .nb-js .cell[data-typed]:not([data-ran]):not([data-state="running"]) .cell-in code { visibility: hidden; }
 
-  /* Rows and lines arrive on the beat, swept left to right. */
   .nb-js .cell:not([data-ran]) .stream { clip-path: inset(0 100% 0 0); }
   .nb-js .cell[data-ran] .stream {
     animation: sweep calc(var(--beat) * 2) linear both;
@@ -264,12 +263,11 @@
     color: var(--ink);
     margin-left: -0.05em;
   }
-  /* Title on top; log, lab line, action and plot sit together as one row anchored to the fold. */
   .hero-grid { display: grid; gap: 2rem; margin-top: 2rem; align-items: end; align-content: end; }
   .hero-left { display: flex; flex-direction: column; gap: 1.75rem; }
   .hero-log { display: grid; gap: 0.2rem; font-size: 0.875rem; color: var(--muted); }
   .hero-log li::before { content: "> "; color: var(--ultra); }
-  /* The hero output ends at the fold: the remaining height after toolbar, code well and paddings. */
+  /* Ends at the fold: viewport minus toolbar, code well and padding. */
   @media (min-width: 48rem) {
     .hero-out { display: flex; flex-direction: column; min-height: calc(100svh - var(--toolbar-h) - 6.5rem); }
     .hero-grid { flex: 1; }
@@ -324,7 +322,6 @@
   .widget-wide { max-width: 44rem; }
   .widget-foot { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--mist); }
 
-  /* Disabled controls are hatched, not just faded. */
   button:disabled, [aria-disabled="true"] {
     background-image: repeating-linear-gradient(45deg, transparent 0 6px, var(--rule) 6px 7px);
   }

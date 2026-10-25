@@ -1,12 +1,8 @@
 <script setup lang="ts">
 const props = defineProps<{
-  /** Shown in the input well. Omit for a markdown cell, which has no counter. */
   code?: string
-  /** Type the code out before running. */
   typed?: boolean
-  /** A form submit is in flight: show the running state. */
   busy?: boolean
-  /** The last submit failed: the cell ends in the error state instead of done. */
   error?: boolean
   hero?: boolean
 }>()
@@ -25,7 +21,7 @@ const shown = ref(props.code ?? '')
 const shownState = computed(() => props.busy ? 'running' : state.value)
 const label = computed(() => shownState.value === 'queued' || shownState.value === 'running' ? '[*]:' : `[${count.value ?? ' '}]:`)
 const status = computed(() => t(`nb.state.${shownState.value}`, { n: count.value ?? '' }))
-// Calls like `news.latest(` get the function colour; everything else stays ink.
+// Function calls are ultramarine; everything else stays ink.
 const parts = computed(() => shown.value.split(/([\w.]+(?=\())/).filter(Boolean).map(text => ({ text, fn: /^[\w.]+$/.test(text) && shown.value.includes(`${text}(`) })))
 
 function execute() {

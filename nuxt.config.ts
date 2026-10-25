@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   app: {
     head: { titleTemplate: '%s · Camellab' }
   },
-  // Light only: the poster world is printed matter. Fonts are self-hosted from @fontsource.
+  // Light only; fonts are self-hosted from @fontsource.
   ui: { colorMode: false, fonts: false },
   // Singapore; keep in the same region as the Supabase project (ap-southeast-1).
   nitro: {

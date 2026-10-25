@@ -1,6 +1,6 @@
 type Job = () => Promise<void>
 
-// Client-only: cells queue themselves from onMounted and run one at a time, in order, like a real kernel.
+// One module-level queue, shared by every cell on the page.
 const queue: Job[] = []
 let draining = false
 const cells = new Set<{ el: HTMLElement, start: () => void, rerun: () => void }>()
