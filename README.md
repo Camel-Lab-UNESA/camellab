@@ -1,75 +1,42 @@
-# Nuxt Minimal Starter
+# Camellab
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Site for Camellab, an AI research lab. The landing page introduces the lab; news and longer articles live in `content/`.
+
+## Stack
+
+- Nuxt 4 with Nuxt UI and Nuxt Content
+- Better Auth backed by Supabase Postgres
+- Resend for confirmation and password reset email
+- English and Bahasa Indonesia
 
 ## Setup
 
-Make sure to install dependencies:
+Requires Node.js and pnpm.
 
 ```bash
-# npm
-npm install
-
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+cp .env.example .env
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+Fill in `.env`, run `supabase/setup.sql` once in the Supabase SQL editor, then create the auth tables:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
+pnpm db:migrate
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+The site runs at `http://localhost:3000`.
 
-Build the application for production:
+## Scripts
 
-```bash
-# npm
-npm run build
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Development server |
+| `pnpm build` | Production build |
+| `pnpm preview` | Preview the production build |
+| `pnpm generate` | Static generation |
+| `pnpm db:migrate` | Create or update the Better Auth tables |
 
-# pnpm
-pnpm build
+## Content
 
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+News goes in `content/news`, articles in `content/articles`, and the about text in `content/about` (one file per language). Posts are Markdown with the front matter described in `content/articles/how-to-publish.md`.
