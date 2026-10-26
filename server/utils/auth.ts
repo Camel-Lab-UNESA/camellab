@@ -8,11 +8,9 @@ import { Pool } from 'pg'
 // `internal` is never self-assigned; promote users with SQL (see supabase/setup.sql).
 const SIGNUP_ROLES = ['student', 'lecturer']
 
-// The admin plugin ships an "admin" role out of the box; we reuse our own `internal` role for
-// that instead of adding a second role string. Grant only list + ban/unban, which is all the
-// admin page uses — not set-role, impersonate, delete, set-password or set-email. Role changes
-// stay SQL-only (see supabase/setup.sql); broader admin API access would let any internal user
-// promote themselves or others, impersonate accounts or wipe users straight through the API.
+// Grant internal only what the admin page uses (list + ban) — not set-role, impersonate,
+// delete, set-password or set-email. Role changes stay SQL-only (supabase/setup.sql); a
+// broader grant here would let any internal user reach those through the raw admin API.
 const adminStatements = {
   user: ['create', 'list', 'set-role', 'ban', 'impersonate', 'delete', 'set-password', 'set-email', 'get', 'update'],
   session: ['list', 'revoke', 'delete']
