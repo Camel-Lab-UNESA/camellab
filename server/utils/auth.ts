@@ -9,13 +9,16 @@ import { Pool } from 'pg'
 const SIGNUP_ROLES = ['student', 'lecturer']
 
 // The admin plugin ships an "admin" role out of the box; we reuse our own `internal` role for
-// that instead of adding a second role string, so it needs the same statements under that name.
+// that instead of adding a second role string. Grant only list + ban/unban, which is all the
+// admin page uses — not set-role, impersonate, delete, set-password or set-email. Role changes
+// stay SQL-only (see supabase/setup.sql); broader admin API access would let any internal user
+// promote themselves or others, impersonate accounts or wipe users straight through the API.
 const adminStatements = {
   user: ['create', 'list', 'set-role', 'ban', 'impersonate', 'delete', 'set-password', 'set-email', 'get', 'update'],
   session: ['list', 'revoke', 'delete']
 } as const
 const adminAccess = createAccessControl(adminStatements)
-const internalRole = adminAccess.newRole(adminStatements)
+const internalRole = adminAccess.newRole({ user: ['list', 'ban'], session: [] })
 // On unless explicitly "false"; set REQUIRE_EMAIL_VERIFICATION=false in local .env to skip confirmation emails.
 const requireEmailVerification = process.env.REQUIRE_EMAIL_VERIFICATION !== 'false'
 const MAX_LENGTH: Record<string, number> = { name: 100, department: 100, bio: 500 }
