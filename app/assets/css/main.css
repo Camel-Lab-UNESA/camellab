@@ -295,7 +295,33 @@
   /* Markdown cell output */
   .md h1 { font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 800; font-stretch: 112%; letter-spacing: -0.035em; line-height: 0.95; color: var(--ink); text-wrap: balance; max-width: 20ch; }
   .md h2 { font-size: 2rem; font-weight: 800; font-stretch: 112%; letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); }
+  .md-subtitle { margin-top: 0.75rem; font-size: 1.25rem; font-style: italic; line-height: 1.45; color: var(--muted); max-width: 42ch; }
   .md-meta { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-family: var(--font-mono); font-size: 0.875rem; color: var(--muted); }
+
+  /* Inline post editor: a plain top bar, not a notebook cell — editing should read like writing, not running code. */
+  .editor-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    padding-block: 0.85rem;
+    margin-bottom: 1.75rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--mist);
+  }
+  .editor-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .editor-back:hover { color: var(--ink); }
+  .editor-status { font-size: 0.8125rem; color: var(--muted); }
 
   /* DataFrame output */
   .df { overflow-x: auto; }

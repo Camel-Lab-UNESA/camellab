@@ -1,12 +1,21 @@
 import { betterAuth } from 'better-auth'
 import { APIError } from 'better-auth/api'
-import { username } from 'better-auth/plugins'
+import { admin, createAccessControl, username } from 'better-auth/plugins'
 import { Pool } from 'pg'
 
 // No Nuxt auto-imports in this file: scripts/migrate.ts loads it with plain Node.
 
 // `internal` is never self-assigned; promote users with SQL (see supabase/setup.sql).
 const SIGNUP_ROLES = ['student', 'lecturer']
+
+// The admin plugin ships an "admin" role out of the box; we reuse our own `internal` role for
+// that instead of adding a second role string, so it needs the same statements under that name.
+const adminStatements = {
+  user: ['create', 'list', 'set-role', 'ban', 'impersonate', 'delete', 'set-password', 'set-email', 'get', 'update'],
+  session: ['list', 'revoke', 'delete']
+} as const
+const adminAccess = createAccessControl(adminStatements)
+const internalRole = adminAccess.newRole(adminStatements)
 // On unless explicitly "false"; set REQUIRE_EMAIL_VERIFICATION=false in local .env to skip confirmation emails.
 const requireEmailVerification = process.env.REQUIRE_EMAIL_VERIFICATION !== 'false'
 const MAX_LENGTH: Record<string, number> = { name: 100, department: 100, bio: 500 }
@@ -92,7 +101,7 @@ export const auth = betterAuth({
       bio: { type: 'string', required: false }
     }
   },
-  plugins: [username()],
+  plugins: [username(), admin({ ac: adminAccess, roles: { internal: internalRole }, adminRoles: ['internal'], defaultRole: 'student' })],
   // The schema check delays the first auth request on every cold start; `pnpm db:migrate` owns the schema.
   advanced: { database: { validateSchema: !!import.meta.dev } },
   // Memory rate limits reset on every serverless cold start, so keep counters in Postgres.
