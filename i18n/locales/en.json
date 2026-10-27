@@ -21,7 +21,7 @@
     "results": "{n} result | {n} results"
   },
   "home": {
-    "title": "AI research lab",
+    "title": "AI research lab at Universitas Negeri Surabaya",
     "aboutAction": "About the lab",
     "about": "About the lab",
     "latestNews": "Latest news",
@@ -58,7 +58,7 @@
     "internal": "Internal team"
   },
   "footer": {
-    "tagline": "Camellab · AI research lab"
+    "tagline": "Camellab · AI research lab · Universitas Negeri Surabaya"
   },
   "form": {
     "required": "Required",
