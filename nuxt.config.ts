@@ -39,6 +39,9 @@ export default defineNuxtConfig({
     },
     server: {
       allowedHosts: ["dev.arpthef.my.id"],
+      // Cloudflare caches .css/.js by extension; without no-store it caches dev
+      // modules for hours and serves the CSS response to JS imports (MIME error).
+      headers: { "Cache-Control": "no-store" },
     },
   },
   i18n: {
