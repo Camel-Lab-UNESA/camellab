@@ -2,8 +2,8 @@
 // Landing background: a strip of folded-paper dunes along the bottom of the screen, and the logo's origami camel
 // (facets traced from public/logo/camellab-mark.svg) living on the front dune. It folds together on load, then
 // walks or trots, grazes, stretches, kneels and dozes, or unfolds into loose paper and refolds elsewhere. It looks
-// out when the pointer comes near, wanders over to a pointer resting low on the screen, and hops and spits when
-// poked. Plain 3D maths onto SVG polygons; everything above the strip stays clear for the text.
+// out when the pointer comes near, and wanders over to a pointer resting low on the screen. Plain 3D maths onto
+// SVG polygons; everything above the strip stays clear for the text.
 type V = [number, number, number]
 type Part = 'fore' | 'hind' | 'neck'
 
@@ -98,14 +98,12 @@ function ground(x: number) {
 
 const layer = ref<SVGGElement>()
 const tracks = ref<SVGPathElement>()
-const drop = ref<SVGCircleElement>()
 const zs: SVGTextElement[] = []
 const polys: SVGPolygonElement[] = []
 // facing 1 = head left, as in the logo; dir is the way the next walk goes. fold runs 0 (loose paper) → FOLDED.
 const c = {
   mode: 'intro', t: 0, wait: 0, idle: 'stand', x: 0, target: 0, facing: 1, dir: 1, pace: 1, moved: false,
-  fold: 0, phase: 0, gait: 0, neck: 0, look: 0, sit: 0, sitTo: 0, sleep: 0, hop: 9, tilt: 0,
-  spit: null as null | { t: number, x: number, y: number, dx: number },
+  fold: 0, phase: 0, gait: 0, neck: 0, look: 0, sit: 0, sitTo: 0, sleep: 0, tilt: 0,
   prints: [] as [number, number][]
 }
 const pointer = { x: -1e4, y: -1e4, at: 0 }
@@ -152,7 +150,6 @@ function tick(now: number) {
   const k = 1 - Math.exp(-dt * 5)
   const near = Math.hypot(pointer.x - c.x, pointer.y - (ground(c.x).y - 220 * s)) < 300 * s + 60
   c.t += dt
-  c.hop += dt
   c.look += (Number(near && c.mode !== 'unfold') - c.look) * k
 
   if (c.mode === 'intro') {
@@ -198,7 +195,6 @@ function tick(now: number) {
       ? 0.12
       : c.mode !== 'rest' ? 0 : c.idle === 'graze' ? -0.6 + Math.sin(c.t * 6) * 0.08 : c.idle === 'stretch' ? 0.3 : 0
   c.neck += (neck - c.neck) * k
-  if (c.spit && (c.spit.t += dt) > 4) c.spit = null
 
   draw(s, now)
   if (!kernel.reducedMotion()) raf = requestAnimationFrame(tick)
@@ -208,14 +204,13 @@ function draw(s: number, now: number) {
   const turn = c.mode === 'turn' ? Math.sin(clamp(c.t / 0.7) * Math.PI) * Math.PI / 2 : 0
   const yaw = turn + c.look * 0.3
   const swing = Math.sin(c.phase) * (c.pace > 1 ? 0.2 : 0.14) * c.gait
-  const hop = c.hop < 0.55 ? Math.sin(c.hop / 0.55 * Math.PI) : 0
   // Kneeling folds the legs out and lowers the body into the front dune, which is drawn over it.
   const angle = {
-    fore: swing + c.sit * 0.2 + hop * 0.25,
-    hind: -swing - c.sit * 0.2 - hop * 0.25,
+    fore: swing + c.sit * 0.2,
+    hind: -swing - c.sit * 0.2,
     neck: c.neck + Math.sin(c.phase * 2) * 0.04 * c.gait
   }
-  const lift = -Math.abs(Math.sin(c.phase)) * (c.pace > 1 ? 16 : 10) * c.gait - hop * 90 + c.sit * 230 + c.sleep * Math.sin(now / 700) * 3
+  const lift = -Math.abs(Math.sin(c.phase)) * (c.pace > 1 ? 16 : 10) * c.gait + c.sit * 230 + c.sleep * Math.sin(now / 700) * 3
   const feet = ground(c.x).y
   const [cos, sin] = [Math.cos(c.tilt), Math.sin(c.tilt)]
   const pose = (p: V, part?: Part) => {
@@ -260,15 +255,6 @@ function draw(s: number, now: number) {
     z.setAttribute('font-size', (10 + u * 10).toFixed(1))
     z.setAttribute('visibility', c.sleep > 0.5 ? 'visible' : 'hidden')
   })
-  // Spit: an arc ahead of the mouth that lands on the sand and stays a few seconds.
-  const sp = c.spit
-  drop.value!.setAttribute('visibility', sp ? 'visible' : 'hidden')
-  if (sp) {
-    const u = clamp(sp.t / 0.6)
-    const x = sp.x + sp.dx * u
-    drop.value!.setAttribute('cx', x.toFixed(1))
-    drop.value!.setAttribute('cy', (sp.y + (ground(x).y - sp.y) * u - 70 * Math.sin(Math.PI * u)).toFixed(1))
-  }
 }
 
 const resize = () => Object.assign(view, { w: innerWidth, h: innerHeight })
@@ -278,14 +264,6 @@ const away = () => Object.assign(pointer, { x: -1e4, y: -1e4 })
 const onMove = (e: PointerEvent) => Object.assign(pointer, { x: e.clientX, y: e.clientY, at: e.timeStamp })
 const onOut = (e: PointerEvent) => e.relatedTarget || away()
 const onUp = (e: PointerEvent) => e.pointerType === 'mouse' || away()
-// Poked: hop (or get up, if kneeling) and spit. The layer ignores pointers, so hit-test its box.
-function onPoke(e: PointerEvent) {
-  const b = layer.value!.getBBox()
-  if (c.mode === 'intro' || c.mode === 'unfold' || e.clientX < b.x || e.clientX > b.x + b.width || e.clientY < b.y || e.clientY > b.y + b.height) return
-  if (c.mode === 'sit') c.wait = 0
-  else c.hop = 0
-  c.spit = { t: 0, x: mouth[0]!, y: mouth[1]!, dx: -c.facing * rand(90, 160) }
-}
 
 onMounted(() => {
   resize()
@@ -298,7 +276,6 @@ onMounted(() => {
     addEventListener('resize', still)
   }
   addEventListener('pointermove', onMove, { passive: true })
-  addEventListener('pointerdown', onPoke, { passive: true })
   addEventListener('pointerup', onUp, { passive: true })
   addEventListener('pointercancel', away, { passive: true })
   document.addEventListener('pointerout', onOut)
@@ -312,7 +289,6 @@ onBeforeUnmount(() => {
   removeEventListener('resize', resize)
   removeEventListener('resize', still)
   removeEventListener('pointermove', onMove)
-  removeEventListener('pointerdown', onPoke)
   removeEventListener('pointerup', onUp)
   removeEventListener('pointercancel', away)
   document.removeEventListener('pointerout', onOut)
@@ -334,7 +310,6 @@ onBeforeUnmount(() => {
       </g>
       <path ref="tracks" class="tracks" />
       <text v-for="i in 3" :key="i" :ref="el => { if (el) zs[i - 1] = el as SVGTextElement }">z</text>
-      <circle ref="drop" class="drop" r="4" />
     </svg>
   </div>
 </template>

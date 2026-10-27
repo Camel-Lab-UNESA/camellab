@@ -305,7 +305,6 @@
   .dunes-1 .lit, .dunes-2 polygon { fill: var(--color-ultra-100); }
   .wander .tracks { fill: none; stroke: var(--color-ultra-300); stroke-width: 2; stroke-linecap: round; }
   .wander text { font-family: var(--font-mono); fill: var(--muted); }
-  .wander .drop { fill: var(--amber); }
 
   /* Markdown cell output */
   .md h1 { font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 800; font-stretch: 112%; letter-spacing: -0.035em; line-height: 0.95; color: var(--ink); text-wrap: balance; max-width: 20ch; }
