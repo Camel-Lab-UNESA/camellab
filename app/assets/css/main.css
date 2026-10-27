@@ -76,7 +76,8 @@
 
 @layer base {
   html { background: var(--paper); scrollbar-color: var(--rule) var(--paper); }
-  body { background: var(--paper); color: var(--ui-text); font-size: 1.0625rem; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  /* No body background: html paints the paper, so the landing camel (z-index -1) shows above it. */
+  body { color: var(--ui-text); font-size: 1.0625rem; line-height: 1.6; -webkit-font-smoothing: antialiased; }
   ::selection { background: var(--amber); color: var(--ink); }
   input, textarea { caret-color: var(--ultra); }
   a { text-underline-offset: 0.2em; text-decoration-thickness: 1.5px; }
@@ -291,6 +292,20 @@
   @media (max-width: 47.99rem) {
     .plot .tick { font-size: 22px; }
   }
+
+  /* Landing background (CamelWander.vue): a strip of paper dunes behind the notebook, the camel on the front one. */
+  .wander { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+  .wander svg { width: 100%; height: 100%; }
+  /* Paper-coloured seams at every fold, on the dunes and the camel alike, like the gaps in the logo. */
+  .wander polygon { stroke: var(--paper); stroke-width: 2; stroke-linejoin: round; }
+  /* Each fold: the face toward the light one tint lighter than the slip face. The middle row is the darkest, for depth. */
+  .dunes-0 polygon { fill: var(--color-ultra-100); }
+  .dunes-0 .lit, .dunes-2 .lit { fill: var(--color-ultra-50); }
+  .dunes-1 polygon { fill: var(--color-ultra-200); }
+  .dunes-1 .lit, .dunes-2 polygon { fill: var(--color-ultra-100); }
+  .wander .tracks { fill: none; stroke: var(--color-ultra-300); stroke-width: 2; stroke-linecap: round; }
+  .wander text { font-family: var(--font-mono); fill: var(--muted); }
+  .wander .drop { fill: var(--amber); }
 
   /* Markdown cell output */
   .md h1 { font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 800; font-stretch: 112%; letter-spacing: -0.035em; line-height: 0.95; color: var(--ink); text-wrap: balance; max-width: 20ch; }

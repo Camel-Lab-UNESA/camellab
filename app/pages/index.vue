@@ -27,6 +27,7 @@ useSeoMeta({
 
 <template>
   <div class="notebook">
+    <CamelWander />
     <NbCell code="camellab.about()" typed hero>
       <div class="hero-out">
         <h1 class="hero-title stream">Camellab</h1>
