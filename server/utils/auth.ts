@@ -106,8 +106,8 @@ export const auth = betterAuth({
     username(),
     admin({ ac: adminAccess, roles: { internal: internalRole }, adminRoles: ['internal'], defaultRole: 'student' }),
     // admin() marks role server-only, and plugin fields override additionalFields, so sign-up
-    // rejected it. Open it again here; databaseHooks below limit it to SIGNUP_ROLES and keep
-    // /update-user from changing it.
+    // rejected it. Open it again here; databaseHooks below limit it to SIGNUP_ROLES and block
+    // any later change.
     { id: 'signup-role', schema: { user: { fields: { role: { type: 'string', required: false, defaultValue: 'student' } } } } }
   ],
   // The schema check delays the first auth request on every cold start; `pnpm db:migrate` owns the schema.
@@ -126,9 +126,9 @@ export const auth = betterAuth({
         }
       },
       update: {
-        before: async (data, ctx) => {
-          // Users edit their own profile through /update-user; role changes never go through it.
-          if (ctx?.path === '/update-user' && 'role' in data) {
+        before: async (data) => {
+          // Role changes are SQL-only (supabase/setup.sql), which skips these hooks, so no endpoint may set it.
+          if ('role' in data) {
             throw new APIError('FORBIDDEN', { message: 'Role cannot be changed' })
           }
           checkLengths(data)
