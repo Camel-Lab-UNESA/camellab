@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const kernel = useKernel()
-const { data: session } = await authClient.useSession(useFetch)
+const { data: session } = await useAuthSession()
 </script>
 
 <template>

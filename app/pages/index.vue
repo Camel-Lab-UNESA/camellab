@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { locale, t } = useI18n()
-const { data: session } = await authClient.useSession(useFetch)
+const { data: session } = await useAuthSession()
 
 // Posts come through /api/posts, which only returns what the viewer's role may read.
 const requestFetch = useRequestFetch()

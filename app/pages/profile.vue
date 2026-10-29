@@ -3,7 +3,7 @@ definePageMeta({ middleware: 'auth' })
 
 const { t, te } = useI18n()
 const authError = useAuthError()
-const { data: session } = await authClient.useSession(useFetch)
+const { data: session } = await useAuthSession()
 const user = computed(() => session.value?.user)
 const busy = ref(false)
 const result = ref<{ kind: 'stdout' | 'stderr', text: string }>()

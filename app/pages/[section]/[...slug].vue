@@ -18,7 +18,7 @@ if (!post.value && !signInToRead) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 
-const { data: session } = await authClient.useSession(useFetch)
+const { data: session } = await useAuthSession()
 const canEdit = computed(() => session.value?.user.role === 'internal')
 
 type Draft = {

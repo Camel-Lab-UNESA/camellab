@@ -10,7 +10,7 @@ const route = useRoute()
 const { t } = useI18n()
 const section = route.params.section as 'news' | 'articles'
 
-const { data: session } = await authClient.useSession(useFetch)
+const { data: session } = await useAuthSession()
 const draft: PostDraft = {
   title: '',
   slug: '',
