@@ -9,8 +9,12 @@ const above = (a: HTMLElement, b: HTMLElement) => Boolean(a.compareDocumentPosit
 export function useKernel() {
   const state = useState('kernel', () => ({ count: 0, busy: false }))
 
-  // One clock for the whole site: the --beat value in main.css.
-  const beat = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--beat')) || 140
+  // One clock for the whole site: the --beat value in main.css, in ms. The production
+  // minifier rewrites 140ms as .14s, so read the unit too.
+  const beat = () => {
+    const value = getComputedStyle(document.documentElement).getPropertyValue('--beat').trim()
+    return parseFloat(value) * (value.endsWith('ms') ? 1 : 1000) || 140
+  }
   const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches
   const wait = (beats: number) => reducedMotion() ? Promise.resolve() : new Promise<void>(r => setTimeout(r, beats * beat()))
 

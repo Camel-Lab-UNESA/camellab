@@ -1,8 +1,9 @@
 ---
-title: How to publish a post on Camellab
-description: News and articles are plain Markdown files. Here is what goes at the top of one, and where it goes.
+title: "How to publish a post on Camellab"
+description: "News and articles are plain Markdown files. Here is what goes at the top of one, and where it goes."
 date: 2026-10-25
-author: Camellab
+author: "Camellab"
+visibility: public
 ---
 
 Every post on this site is a Markdown file in the project's `content` folder. News goes in `content/news`, articles in `content/articles`.
@@ -47,3 +48,5 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
 ```
 
 A YouTube link inside a sentence stays a normal link.
+
+[https://www.youtube.com/watch?v=dQw4w9WgXcQ](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
