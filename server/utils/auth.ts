@@ -102,7 +102,14 @@ export const auth = betterAuth({
       bio: { type: 'string', required: false }
     }
   },
-  plugins: [username(), admin({ ac: adminAccess, roles: { internal: internalRole }, adminRoles: ['internal'], defaultRole: 'student' })],
+  plugins: [
+    username(),
+    admin({ ac: adminAccess, roles: { internal: internalRole }, adminRoles: ['internal'], defaultRole: 'student' }),
+    // admin() marks role server-only, and plugin fields override additionalFields, so sign-up
+    // rejected it. Open it again here; databaseHooks below limit it to SIGNUP_ROLES and keep
+    // /update-user from changing it.
+    { id: 'signup-role', schema: { user: { fields: { role: { type: 'string', required: false, defaultValue: 'student' } } } } }
+  ],
   // The schema check delays the first auth request on every cold start; `pnpm db:migrate` owns the schema.
   advanced: { database: { validateSchema: !!import.meta.dev } },
   // Memory rate limits reset on every serverless cold start, so keep counters in Postgres.
